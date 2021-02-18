@@ -1,0 +1,20 @@
+
+      create_table :barbers do |t|
+      t.text :name
+
+      t.timestamps
+    end
+    Barber.create :name => 'Jessie Pinkman'
+    Barber.create :name => 'Walter White'
+    Barber.create :name => 'Gus Fring'
+    Barber.create :name => 'Mike Ehrmantraut'
+
+    create_table :users do |t|
+      t.text :name
+      t.text :phone
+      t.text :datestamp
+      t.text :barber
+      t.text :color
+
+      t.timestamps
+    end

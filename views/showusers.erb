@@ -1,0 +1,20 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Имя</th>
+			<th>Телефон</th>
+			<th>Когда ждать</th>
+			<th>Парикмхер</th>
+			<th>Цвет Волос</th>
+		</tr>
+	</thead>
+	<tbody>
+	 	<tr><% @results.each do |user| %>
+			<td><%= user.name %></td>
+			<td><%= user.phone %></td>
+			<td><%= user.datestamp %></td>
+			<td><%= user.barber %></td>
+			<td style="background-color: <%= user.color %>"><%= user.color %></td>
+		</tr><% end %>
+	</tbody>
+</table>	
