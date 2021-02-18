@@ -31,8 +31,11 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rake (13.0.3)
     ripl (0.7.1)
       bond (~> 0.5.1)
+    ripl-irb (0.2.3)
+      ripl (>= 0.2.5)
     ripl-multi_line (0.3.1)
       ripl (>= 0.3.6)
     ripl-rack (0.2.1)
@@ -69,6 +72,8 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  rake
+  ripl-irb
   sinatra
   sinatra-activerecord
   sinatra-contrib
