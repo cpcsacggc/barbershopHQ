@@ -7,13 +7,28 @@ require 'sinatra/activerecord'
 set :database, {adapter:'sqlite3', database:'barbershop.db'}
  
 class User < ActiveRecord::Base
+  	validates :name, presence: true
+	validates :phone, presence: true
+  	validates :datestamp, presence: true
+ 	validates :barber, presence: true
+ 	validates :color, presence: true
 end
 
 class Barber < ActiveRecord::Base
 end
+
+class Contact < ActiveRecord::Base
+end
+
+class Color < ActiveRecord::Base
+end
+
 before do
+	@colors = Color.all
 	@barbers = Barber.all
 	@results = User.all
+	@contacts = Contact.all
+	@u = User.new params[:user]
 end
 
 get '/' do
@@ -34,6 +49,7 @@ get '/about' do
 end
 
 get '/visit' do
+	
 	erb :visit
 end
 
@@ -43,38 +59,16 @@ end
 
 post '/visit' do
 
-	@username = params[:username]
-	@phone = params[:phone]
-	@datetime = params[:datetime]
-	@barber = params[:barber]
-	@color = params[:color]
-
-	# хеш
-	hh = { 	:username => 'Введите имя',
-			:phone => 'Введите телефон',
-			:datetime => 'Введите дату и время',
-			:barber => 'Выберите Парекмахера',
-			:color => 'Выберите цвет покраски волос'
-		}
-
-	@error = hh.select {|key,_| params[key] == ""}.values.join(", ")
-
-	if @error != ''
-		return erb :visit
+	@u = User.new params[:user]
+	@u.save
+	if @u.save
+		erb "<h3>Спасибо, вы записались!</h3>"
+	else
+		# @error = @u.errors.full_messages.first
+		err_arr = @u.errors.full_messages
+			err_arr.each do |msg|
+				@error = msg
+			end
+		erb :visit
 	end
-
-	# $db.execute 'insert into Users 
-	# (
-	# 	username, 
-	# 	phone, 
-	# 	datestamp,
-	# 	barber, 
-	# 	color
-	# )
-	# values
-	# (
-	# ?, ?, ?, ?, ?
-	# )', [@username, @phone, @datetime, @barber, @color]
-
-	erb "<h3>Спасибо, вы записались!</h3>"
 end
