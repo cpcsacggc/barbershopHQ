@@ -1,6 +1,7 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
+			<th>&nbsp;</th>
 			<th>Имя</th>
 			<th>Телефон</th>
 			<th>Когда ждать</th>
@@ -10,6 +11,7 @@
 	</thead>
 	<tbody>
 	 	<tr><% @results.each do |user| %>
+	 		<td><input type="checkbox"></td>
 			<td><%= user.name %></td>
 			<td><%= user.phone %></td>
 			<td><%= user.datestamp %></td>

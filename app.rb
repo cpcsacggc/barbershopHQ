@@ -7,8 +7,11 @@ require 'sinatra/activerecord'
 set :database, {adapter:'sqlite3', database:'barbershop.db'}
  
 class User < ActiveRecord::Base
-  	validates :name, presence: true
-	validates :phone, presence: true
+  	validates :name, presence: true, length: { minimum: 3}
+  	validates_each :name do |record, attr, value|
+  		record.errors.add(attr, 'must start with upper case') if value =~/\A[[:lower:]]/
+  	end
+  	validates :phone, presence:true, length:{ is: 10}, numericality: {only_integer:true}
   	validates :datestamp, presence: true
  	validates :barber, presence: true
  	validates :color, presence: true
@@ -64,10 +67,13 @@ post '/visit' do
 	if @u.save
 		erb "<h3>Спасибо, вы записались!</h3>"
 	else
-		@error = @u.errors.count
-		# @error = @u.errors.full_messages.first
+		@error = @u.errors.full_messages.first
+		# @error = @u.errors.count
+		# 
+
 		# err_arr = @u.errors.full_messages
 		# @error = err_arr.join(", ")
+		# @u.errors.clear
 		# err_arr.each{|x| @error = "#{x}, "}
 			# err_arr.each do |msg|
 			# 	@error = msg
