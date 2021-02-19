@@ -28,6 +28,7 @@ end
 
 before do
 	@colors = Color.all
+
 	@barbers = Barber.all
 	@results = User.all
 	@contacts = Contact.all
@@ -82,5 +83,6 @@ post '/visit' do
 	end
 end
 get '/barber/:id' do
+	@barber = Barber.find(params[:id])
 	erb :barber
 end
