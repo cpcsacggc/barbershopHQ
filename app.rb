@@ -5,12 +5,12 @@ require 'sinatra/reloader'
 require 'sinatra/activerecord'
 
 set :database, {adapter:'sqlite3', database:'barbershop.db'}
- 
+
 class User < ActiveRecord::Base
   	validates :name, presence: true, length: { minimum: 3}
-  	validates_each :name do |record, attr, value|
-  		record.errors.add(attr, 'must start with upper case') if value =~/\A[[:lower:]]/
-  	end
+  	#validates_each :name do |record, attr, value|
+  	#	record.errors.add(attr, 'must start with upper case') if value =~/\A[[:lower:]]/
+  	#end
   	validates :phone, presence:true, length:{ is: 10}, numericality: {only_integer:true}
   	validates :datestamp, presence: true
  	validates :barber, presence: true
@@ -28,11 +28,9 @@ end
 
 before do
 	@colors = Color.all
-
 	@barbers = Barber.all
-	@results = User.all
 	@contacts = Contact.all
-	@u = User.new params[:user]
+  @u = User.new params[:user]
 end
 
 get '/' do
@@ -41,10 +39,11 @@ get '/' do
 end
 
 get '/' do
-	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
+	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"
 end
 
 get '/showusers' do
+  @results = User.all
  	erb :showusers
 end
 
@@ -52,17 +51,16 @@ get '/about' do
 	erb :about
 end
 
-get '/visit' do
-	
-	erb :visit
-end
+
 
 get '/contacts' do
 	erb :contacts
 end
+get '/visit' do
 
+	erb :visit
+end
 post '/visit' do
-
 	@u = User.new params[:user]
 	@u.save
 	if @u.save
@@ -70,7 +68,7 @@ post '/visit' do
 	else
 		@error = @u.errors.full_messages.first
 		# @error = @u.errors.count
-		# 
+		#
 
 		# err_arr = @u.errors.full_messages
 		# @error = err_arr.join(", ")
