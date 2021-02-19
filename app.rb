@@ -64,11 +64,14 @@ post '/visit' do
 	if @u.save
 		erb "<h3>Спасибо, вы записались!</h3>"
 	else
+		@error = @u.errors.count
 		# @error = @u.errors.full_messages.first
-		err_arr = @u.errors.full_messages
-			err_arr.each do |msg|
-				@error = msg
-			end
+		# err_arr = @u.errors.full_messages
+		# @error = err_arr.join(", ")
+		# err_arr.each{|x| @error = "#{x}, "}
+			# err_arr.each do |msg|
+			# 	@error = msg
+			# end
 		erb :visit
 	end
 end

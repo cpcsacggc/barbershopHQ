@@ -42,9 +42,10 @@
 			</nav>
 
 			<div>
-			      <%if @error && @error.length > 0 then %>
+			     <!--  <%if @error && @error.length > 0 then %> -->
+			      <!-- <p style="color: red"><%= @error %></p> -->
 			          <div class="alert alert-danger"><%=@error%></div>
-			      <% end %>
+			     <!--  <% end %> -->
 			      <%= yield %>
 			</div>
 
