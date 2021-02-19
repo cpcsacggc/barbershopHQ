@@ -30,7 +30,7 @@ before do
 	@colors = Color.all
 	@barbers = Barber.all
 	@contacts = Contact.all
-  @u = User.new params[:user]
+  @users = User.new params[:user]
 end
 
 get '/' do
@@ -61,12 +61,12 @@ get '/visit' do
 	erb :visit
 end
 post '/visit' do
-	@u = User.new params[:user]
-	@u.save
-	if @u.save
+	@users = User.new params[:user]
+	@users.save
+	if @users.save
 		erb "<h3>Спасибо, вы записались!</h3>"
 	else
-		@error = @u.errors.full_messages.first
+		@error = @users.errors.full_messages.first
 		# @error = @u.errors.count
 		#
 
@@ -83,4 +83,12 @@ end
 get '/barber/:id' do
 	@barber = Barber.find(params[:id])
 	erb :barber
+end
+get "/bookings" do
+  @clients = User.order('created_at DESC')
+  erb :bookings
+end
+get '/client/:id' do
+  @client = User.find(params[:id])
+  erb :client
 end
